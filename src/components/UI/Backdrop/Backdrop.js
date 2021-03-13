@@ -6,9 +6,11 @@ const backdrop = (props) => (
 
   props.show ? <div 
                   className={classes.Backdrop} 
-                  onClick= {props.purchaseCancelHandler} 
+                  onClick= {props.clicked} 
                 >
-                </div> : null
+                </div> 
+                
+                : null
 
 );
 

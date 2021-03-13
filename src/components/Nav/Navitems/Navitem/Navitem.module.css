@@ -1,0 +1,45 @@
+.Navitem {
+  margin: 10px 0;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+}
+
+.Navitem a {
+  color: black;
+  text-decoration: none;
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
+}
+
+.Navitem a:hover,
+.Navitem a:active,
+.Navitem a.active{
+  color: blue;
+}
+
+@media (min-width: 500px){
+  .Navitem {
+  margin: 0;
+  display: flex;
+  height: 100%;
+  width: auto;
+  align-items: center;
+}
+
+.Navitem a {
+  color: black;
+  height: 100%;
+  padding: 16px 10px;
+  border-bottom: 4px solid gray;
+}
+
+.Navitem a:hover,
+.Navitem a:active,
+.Navitem a.active{
+  background-color: gray;
+  border-bottom: 4px solid blue;
+  color: white;
+}
+}
