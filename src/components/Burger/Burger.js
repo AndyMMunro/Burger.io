@@ -25,11 +25,15 @@ const burger = (props) => {
         return arr.concat(el)
       }, []);
 
-      if (transformedIngredients.length ===0){
+      if (transformedIngredients.length === 0){
         transformedIngredients = <p>Please Pick Some Ingredients</p>
       }
 
-  console.log(transformedIngredients);
+    // const transformedIngredients = props.ingredientOrder.map((ingKey, index) => {
+    //   return <BurgerIngredients key={ingKey + i} type={ingKey}
+    // )}
+
+  // console.log(transformedIngredients);
 
   return(
     <div className={classes.Burger}>

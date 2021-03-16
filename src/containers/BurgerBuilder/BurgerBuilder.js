@@ -13,7 +13,9 @@ const INGREDIENT_PRICES = {
   lettuce: .5,
   cheese: .75,
   meat: 1.50,
-  bacon: 1
+  bacon: 1,
+  onion: .25,
+  tomato: .75
 }
 
 class BurgerBuilder extends Component {
@@ -22,17 +24,23 @@ class BurgerBuilder extends Component {
   // these keys have to === the ones in BurgerIngredients or  
   // the burger mapping will not work 
   state= {
-    ingredients: {
-      lettuce: 0,
-      bacon: 0,
-      cheese: 0,
-      meat: 0
-    },
+    ingredients: null,
     totalPrice: 5,
     purchasable: false,
     purchasing: false,
-    loading: false
+    loading: false,
+    error: false
 
+  }
+
+  componentDidMount() {
+    axios.get('https://burger-5f281-default-rtdb.firebaseio.com/ingredients.json')
+    .then(res => {
+      this.setState({ingredients: res.data})
+    })
+    .catch(error => {
+      this.setState({error: true})
+    })
   }
 
   updatePurchaseState(ingredients){
@@ -49,6 +57,7 @@ class BurgerBuilder extends Component {
   }
 
   addIngredientHandler =(type) => {
+
     const oldIngCount = this.state.ingredients[type];
     const upDatedIngCount = oldIngCount + 1;
     const updatedIngredients = {
@@ -58,7 +67,7 @@ class BurgerBuilder extends Component {
     const priceAddition = INGREDIENT_PRICES[type];
     const oldPrice = this.state.totalPrice;
     const newPrice = oldPrice + priceAddition;
-    this.setState({totalPrice: newPrice, ingredients: updatedIngredients})
+    this.setState({ totalPrice: newPrice, ingredients: updatedIngredients})
     this.updatePurchaseState(updatedIngredients);
   };
 
@@ -106,7 +115,7 @@ class BurgerBuilder extends Component {
       deliveryMethod: 'fastest'
     }
     // this is unique to firebase ---.json
-    axios.post('/orders.', order)
+    axios.post('/orders.json', order)
     .then(res => {
       this.setState({loading: false, purchasing: false})
       // console.log(res)
@@ -123,32 +132,45 @@ class BurgerBuilder extends Component {
     for(let key in disabledInfo){
       disabledInfo[key] = disabledInfo[key] <= 0
     }
+    
+    let orderSummary = null;
 
-    let orderSummary = <OrderSummary 
+    let burger = this.state.error ? <p>ingredients cannot be loaded</p> : <Spinner/>
+
+      if ( this.state.ingredients){
+        burger = (
+         <Aux>
+           <Burger ingredients={this.state.ingredients} />
+           <BuildControls
+               addIngredientHandler={this.addIngredientHandler}
+               removeIngredientHandler={this.removeIngredientHandler}
+               disabledInfo={disabledInfo}
+               totalPrice={this.state.totalPrice}
+               purchasable={this.state.purchasable}
+               purchaseHandler={this.purchaseHandler}
+           />
+         </Aux>
+       ); 
+       orderSummary = <OrderSummary 
         ingredients={this.state.ingredients} 
         purchaseCancelHandler={this.purchaseCancelHandler}
         purchaseSuccessHandler={this.purchaseSuccessHandler}
         totalPrice={this.state.totalPrice}
         />
-    if(this.state.loading){
-      orderSummary= <Spinner/>;
-    }
+      }
+      if(this.state.loading){
+        orderSummary = <Spinner/>;
+      }
+    
+
     return(
       <Aux>
         <Modal show={this.state.purchasing} purchaseCancelHandler={this.purchaseCancelHandler}>
           {orderSummary}
         </Modal>
 
-        <Burger ingredients={this.state.ingredients} />
+        {burger}
 
-        <BuildControls
-            addIngredientHandler={this.addIngredientHandler}
-            removeIngredientHandler={this.removeIngredientHandler}
-            disabledInfo={disabledInfo}
-            totalPrice={this.state.totalPrice}
-            purchasable={this.state.purchasable}
-            purchaseHandler={this.purchaseHandler}
-        />
       </Aux>
     );
   }
