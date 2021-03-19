@@ -1,11 +1,11 @@
 import React from 'react';
-// this brings in history props directly to all wrapped compenents
+// this brings in history props directly to all wrapped components
 import { withRouter } from 'react-router-dom';
 import BurgerIngredients from './Ingredients/BurgerIngredients'
 import classes from './Burger.module.css'
 
 const burger = (props) => {
-  console.log(props);
+  // console.log(props);
 
 // here we are transforming the state object from burgerBuilder to an array of
 // just the strings from the state not the assigned values 

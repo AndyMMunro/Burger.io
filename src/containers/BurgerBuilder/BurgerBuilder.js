@@ -34,7 +34,7 @@ class BurgerBuilder extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
+    // console.log(this.props);
     axios.get('https://burger-5f281-default-rtdb.firebaseio.com/ingredients.json')
     .then(res => {
       this.setState({         
@@ -133,6 +133,16 @@ class BurgerBuilder extends Component {
   //     .catch(error =>{
   //       this.setState({loading: false, purchasing: false});
   //     })
+  const queryParams = [];
+  for(let i in this.state.ingredients){
+    queryParams.push(encodeURIComponent(i)+ '=' + encodeURIComponent(this.state.ingredients[i]))
+  }
+  const queryString = queryParams.join('&');
+  this.props.history.push({
+      pathname:'/checkout',
+      search:'?' + queryString
+    });
+  
   }
 
   render(){
