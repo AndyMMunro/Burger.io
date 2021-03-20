@@ -33,7 +33,6 @@ class Layout extends Component {
           />
     
         <main className={classes.Content}>
-          <h1>Welcome to Build Your Own Burger Station</h1>
     
           {this.props.children}
         </main>

@@ -185,12 +185,12 @@ class BurgerBuilder extends Component {
 
     return(
       <Aux>
+        <h1>Welcome to Build Your Own Burger Station</h1>
+
         <Modal show={this.state.purchasing} purchaseCancelHandler={this.purchaseCancelHandler}>
           {orderSummary}
         </Modal>
-
-        {burger}
-
+          {burger}
       </Aux>
     );
   }
