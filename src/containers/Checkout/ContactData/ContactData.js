@@ -16,12 +16,12 @@ class ContactData extends Component {
 
     orderHandler = (event) => {
         event.preventDefault();
-        // console.log(this.props.ingredients);
-        //   //  alert('you have continued to checkout')
+
+        // console.log(this.props.price);
         this.setState({ loading: true });
         const order = {
             ingredients: this.props.ingredients,
-            price: this.props.totalPrice,
+            price: this.props.price,
             customer: {
                 name: "andy M",
                 address: {

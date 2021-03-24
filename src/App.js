@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router";
 import Layout from "./components/Layout/Layout";
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
 import Checkout from "./containers/Checkout/Checkout";
+import Orders from "./containers/Orders/Orders";
 
 class App extends Component {
     render() {
@@ -10,8 +11,9 @@ class App extends Component {
             <div>
                 <Layout>
                     <Switch>
-                        {/* history props are only available to the directly routed components /containers */}
+                        {/* history props are only available to the directly routed components/containers */}
                         <Route path="/checkout" component={Checkout} />
+                        <Route path="/orders" component={Orders} />
                         <Route path="/" exact component={BurgerBuilder} />
                     </Switch>
                 </Layout>
