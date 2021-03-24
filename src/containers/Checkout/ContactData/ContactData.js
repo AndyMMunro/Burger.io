@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import classes from "./ContactData.module.css";
 import Button from "../../../components/UI/Button/Button";
 import axios from "../../../axios-order";
-
+import Spinner from "../../../components/UI/Spinner/Spinner";
 class ContactData extends Component {
     state = {
         name: "",
@@ -38,6 +38,7 @@ class ContactData extends Component {
             .post("/orders.json", order)
             .then((res) => {
                 this.setState({ loading: false });
+                this.props.history.push("/");
                 // console.log(res)
             })
             .catch((error) => {
@@ -46,38 +47,45 @@ class ContactData extends Component {
     };
 
     render() {
+        let form = (
+            <form className={classes.Input}>
+                <input
+                    className={classes.Input}
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                />
+                <input
+                    className={classes.Input}
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                />
+                <input
+                    className={classes.Input}
+                    type="text"
+                    name="street"
+                    placeholder="Street"
+                />
+                <input
+                    className={classes.Input}
+                    type="text"
+                    name="zip"
+                    placeholder="Zip Code"
+                />
+                <Button btnType="Success" clicked={this.orderHandler}>
+                    Complete Order
+                </Button>
+            </form>
+        );
+        if (this.state.loading) {
+            form = <Spinner />;
+        }
+
         return (
             <div className={classes.ContactData}>
                 <h4>enter your contact info:</h4>
-                <form className={classes.Input}>
-                    <input
-                        className={classes.Input}
-                        type="text"
-                        name="name"
-                        placeholder="Name"
-                    />
-                    <input
-                        className={classes.Input}
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                    />
-                    <input
-                        className={classes.Input}
-                        type="text"
-                        name="street"
-                        placeholder="Street"
-                    />
-                    <input
-                        className={classes.Input}
-                        type="text"
-                        name="zip"
-                        placeholder="Zip Code"
-                    />
-                    <Button btnType="Success" clicked={this.orderHandler}>
-                        Complete Order
-                    </Button>
-                </form>
+                {form}
             </div>
         );
     }
